@@ -1,5 +1,5 @@
 ## Olá 👋
-
+---
 Meu nome é Victor Schmücker Serpa, estou cursando ADS pelo Senai e aluno do Fullstack Master DevPleno. 
 Conectado no:
 [LinkedIn](https://www.linkedin.com/in/victorserpa/)
