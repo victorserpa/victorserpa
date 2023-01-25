@@ -1,21 +1,12 @@
 <h1 align="center">Hi 👋, I'm Victor Schmücker Serpa</h1>
-<h3 align="center">A front end web development enthusiast from Brazil</h3>
+<h3 align="center"> Sou um desenvolvedor front-end apaixonado, e iniciando no Back-end. Atualmente morando no Brasil. <br> Possuo habilidades avançadas em ReactJS, TailwindCSS, NodeJS, ExpressJS e Sequelize, além de outras ferramentas front-end e back-end.</h3>
 
-- 🌱 I’m currently learning **ReactJs, Tailwind**
+- Todos os meus projetos estão disponíveis em meu perfil do GitHub em [GitHub - Victor Serpa](https://github.com/victorserpa). Meu portfólio também está disponível em https://www.victorserpa.tk
 
-- 👨‍💻 All of my projects are available at [https://github.com/victorserpa](https://github.com/victorserpa)
+- Para entrar em contato comigo, por favor, envie um e-mail para schmvitoor@gmail.com. Você também pode me encontrar nas minhas redes sociais, basta clicar nos links abaixo.
 
-- My Portfolio are available at https://portifolioo-omega.vercel.app/
+- [Instagram](https://www.instagram.com/schmvitor/)
+- [LinkedIn](https://www.linkedin.com/in/victorserpa/)
 
-- 📫 How to reach me **schmvitoor@gmail.com**
 
-<p align="left"> <a href="https://twitter.com/schmvitor" target="blank"><img src="https://img.shields.io/twitter/follow/schmvitor?logo=twitter&style=for-the-badge" alt="schmvitor" /></a> </p>
-
-<h3 align="left">Connect with me:</h3>
-<p align="left">
-<a href="https://twitter.com/schmvitor" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="schmvitor" height="30" width="40" /></a>
-<a href="https://linkedin.com/in/victor schmücker serpa" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="victor schmücker serpa" height="30" width="40" /></a>
-<a href="https://fb.com/victor schmucker" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/facebook.svg" alt="victor schmucker" height="30" width="40" /></a>
-<a href="https://instagram.com/schmvitor" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="schmvitor" height="30" width="40" /></a>
-</p>
-
+<p> Acompanhe minhas atualizações e projetos recentes para ficar por dentro das minhas habilidades e experiências. </p>
