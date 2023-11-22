@@ -12,17 +12,15 @@
 
 #### Possuo expertise em:
 [<img height="48px" width="48px" alt="Icone React" src="https://skillicons.dev/icons?i=react"/>](https://pt-br.react.dev)
-[<img height="48px" width="48px" alt="Icone React" src="https://skillicons.dev/icons?i=nextjs"/>](https://nextjs.org/)
-[<img height="48px" width="48px" alt="Icone Html" src="https://skillicons.dev/icons?i=tailwind"/>](https://tailwindcss.com/)
-[<img height="48px" width="48px" alt="Icone React" src="https://skillicons.dev/icons?i=styledcomponents	"/>](https://www.styled-components.com/)
+[<img height="48px" width="48px" alt="Icone NextJS" src="https://skillicons.dev/icons?i=nextjs"/>](https://nextjs.org/)
+[<img height="48px" width="48px" alt="Icone TailwindCSS" src="https://skillicons.dev/icons?i=tailwind"/>](https://tailwindcss.com/)
 [<img height="48px" width="48px" alt="Icone Node.js" src="https://skillicons.dev/icons?i=nodejs"/>](https://nodejs.org)
-
 [<img height="48px" width="48px" alt="Icone Java Script" src="https://skillicons.dev/icons?i=js"/>](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
 [<img height="48px" width="48px" alt="Icone TypeScript" src="https://skillicons.dev/icons?i=ts"/>](https://www.typescriptlang.org/pt/)
-[<img height="48px" width="48px" alt="Icone TypeScript" src="https://skillicons.dev/icons?i=jest"/>](https://jestjs.io/pt-BR/)
-[<img height="48px" width="48px" alt="Icone React" src="https://skillicons.dev/icons?i=prisma"/>](https://www.prisma.io/)
-[<img height="48px" width="48px" alt="Icone React" src="https://skillicons.dev/icons?i=redux"/>](https://redux.js.org/)
-[<img height="48px" width="48px" alt="Icone React" src="https://skillicons.dev/icons?i=mysql"/>](https://www.mysql.com/)
+[<img height="48px" width="48px" alt="Icone Jest" src="https://skillicons.dev/icons?i=jest"/>](https://jestjs.io/pt-BR/)
+[<img height="48px" width="48px" alt="Icone Prisma" src="https://skillicons.dev/icons?i=prisma"/>](https://www.prisma.io/)
+[<img height="48px" width="48px" alt="Icone Redux" src="https://skillicons.dev/icons?i=redux"/>](https://redux.js.org/)
+[<img height="48px" width="48px" alt="Icone MySQL" src="https://skillicons.dev/icons?i=mysql"/>](https://www.mysql.com/)
 
 
 
