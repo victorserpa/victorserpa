@@ -1,55 +1,44 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+  ### Hello World!  <img src="https://github.com/sciencepal/sciencepal/blob/master/assets/Hi.gif" width="29px">
+  ![](https://komarev.com/ghpvc/?username=victorserpa&label=Profile%20Visits&color=blue&style=for-the-badge)
+  
+<img src="https://github.com/sciencepal/sciencepal/blob/master/assets/life_balance.gif" alt="side Image" align="right" width="200" height="auto" />
 
-## Hello Everybody!! 👋
-### O meu nome é Victor, Seja bem-vindo ao meu perfil GitHub. <img src="https://raw.githubusercontent.com/MicaelliMedeiros/micaellimedeiros/master/image/computer-illustration.png" alt="ilustração de um computador" min-width="200px" max-width="200px" width="200px" align="right">
-
-- 🔰  Sou de Joinville/SC, Brasil
-- ⚡ Apaixonado por Música e Tecnologia
-<!-- - 🧠 Estudante de Desenvolvimento de Software na Cubos Academy -->
-- 🏦 Atualmente, sou FullStack Developer na SZ Soluções em Joinville/SC, dedicado ao aprimoramento do nosso WMS, o BeeStock e o e-commerce de nossos clientes.
-
-##
-
-#### Possuo expertise em:
+ - 🏦 I'm currently a FullStack Developer at SZ Solutions in Joinville/SC, dedicated to improving our WMS, BeeStock and our clients' e-commerce.
+  
+  #### 📫 How to reach me:
+  
+  [<img src="https://img.icons8.com/color/48/000000/linkedin.png" width="3.5%"/>](https://www.linkedin.com/in/victorserpa/)
+  [<img src="https://img.icons8.com/fluent/48/000000/facebook-new.png" width="3.5%"/>](https://www.facebook.com/schmviitoor/)
+  [<img src="https://img.icons8.com/fluent/48/000000/instagram-new.png" width="3.5%"/>](https://www.instagram.com/schmvitor/)
+  <a href="mailto:schmvitoor@gmail.com"> <img src="https://img.icons8.com/fluent/48/000000/gmail.png" width="3.5%"/>
+  
+  #### 👨🏻‍💻 Languages and Tools <br />
 [<img height="48px" width="48px" alt="Icone React" src="https://skillicons.dev/icons?i=react"/>](https://pt-br.react.dev)
 [<img height="48px" width="48px" alt="Icone NextJS" src="https://skillicons.dev/icons?i=nextjs"/>](https://nextjs.org/)
 [<img height="48px" width="48px" alt="Icone TailwindCSS" src="https://skillicons.dev/icons?i=tailwind"/>](https://tailwindcss.com/)
 [<img height="48px" width="48px" alt="Icone Node.js" src="https://skillicons.dev/icons?i=nodejs"/>](https://nodejs.org)
 [<img height="48px" width="48px" alt="Icone Java Script" src="https://skillicons.dev/icons?i=js"/>](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
 [<img height="48px" width="48px" alt="Icone TypeScript" src="https://skillicons.dev/icons?i=ts"/>](https://www.typescriptlang.org/pt/)
-[<img height="48px" width="48px" alt="Icone Jest" src="https://skillicons.dev/icons?i=jest"/>](https://jestjs.io/pt-BR/)
-[<img height="48px" width="48px" alt="Icone Prisma" src="https://skillicons.dev/icons?i=prisma"/>](https://www.prisma.io/)
 [<img height="48px" width="48px" alt="Icone Redux" src="https://skillicons.dev/icons?i=redux"/>](https://redux.js.org/)
-[<img height="48px" width="48px" alt="Icone MySQL" src="https://skillicons.dev/icons?i=mysql"/>](https://www.mysql.com/)
-
-
 
 ##
 
-#### Ferramentas que uso:
-[<img height="48px" width="48px" alt="Icone VS-Code" src="https://skillicons.dev/icons?i=vscode"/>](https://code.visualstudio.com)
-[<img height="48px" width="48px" alt="Icone Postman" src="https://i.postimg.cc/QNyBTNVk/postman.png"/>](https://www.postman.com)
-[<img height="48px" width="48px" alt="Icone Beekeeper" src="https://i.postimg.cc/j5sT81d4/beekeeperstudio.png"/>](https://www.beekeeperstudio.io)
-[<img height="48px" width="48px" alt="Icone GitHub" src="https://skillicons.dev/icons?i=github"/>](https://github.com/)
-[<img height="48px" width="48px" alt="Icone Git" src="https://raw.githubusercontent.com/tandpfun/skill-icons/main/icons/Git.svg"/>](https://git-scm.com)
-[<img height="48px" width="48px" alt="Icone Vercer" src="https://skillicons.dev/icons?i=vercel"/>](https://vercel.com)
-[<img height="48px" width="48px" alt="Icone Figma" src="https://skillicons.dev/icons?i=figma"/>](https://www.figma.com)
-
-
-#### Experiência Profissional:
-Na visão geral abaixo você encontrará minha experiência de trabalho mais recente:
+#### Professional Experience:
+Below is an overview of my most recent work experience:
 
 [<img align="left" height="94px" width="150px" alt="Warpnet" src="https://i.postimg.cc/v85c8YjN/Prancheta-3.png"/>](https://szsolucoes.com.br)
-**FullStack Developer** \
+
+**Full Stack Developer** \
 [**SZ Soluções**](https://szsolucoes.com.br) • Full-time \
-Competências: `Desenvolvimento Front-end`, `Desenvolvimento Back-end`, `Manutenção de código`, 
-<br/> `Análise e manutenção de código`, `Novas implementações.`
+Languages & Technologies: `JavaScript`, `TypeScript`, `NodeJS`, `React`, `React Native`,\
+Highlighted Projects: [BeeStock (WMS)](<https://materiais.szsolucoes.com.br/beestock>), [Krona Client Portal](https://cliente.krona.com.br/Login), [Checkbuy Chile (e-Shop)](<https://shop.sonepar.cl/>), [Checkbuy Brasil (e-Shop)](<https://shop.nortel.com.br/>)
+<br/>
 
 ##
 
-### Saiba mais sobre mim
+### Learn more about me
 
-- **Portfólio:** [www.victorserpa.com.br](https://www.victorserpa.com.br)
+- **Portfólio:** [www.victorserpa.com.br](https://www.victorserpa.dev)
 - **LinkedIn:** [LinkedIn](https://www.linkedin.com/in/victorserpa/)
 
 ##
