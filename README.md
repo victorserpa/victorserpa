@@ -38,7 +38,7 @@ Highlighted Projects: [BeeStock (WMS)](<https://materiais.szsolucoes.com.br/bees
 
 ### Learn more about me
 
-- **Portfólio:** [www.victorserpa.com.br](https://www.victorserpa.dev)
+- **Portfólio:** [www.victorserpa.dev](https://www.victorserpa.dev)
 - **LinkedIn:** [LinkedIn](https://www.linkedin.com/in/victorserpa/)
 
 ##
