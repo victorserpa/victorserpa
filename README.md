@@ -1,6 +1,7 @@
 ## Victor Serpa
 
 Fullstack developer at **[Instivo](https://instivo.com.br)**, based in Joinville, Brazil.
+On the side I build my own products at **[smk.](https://wearesmk.com)**, an independent product studio — Right of Way and LumeClip come from there.
 
 ```ts
 const victor = {
