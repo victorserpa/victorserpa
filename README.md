@@ -1,13 +1,14 @@
 ## Victor Serpa
 
-Fullstack developer at **[Instivo](https://instivo.com.br)**, based in Joinville, Brazil.
-On the side I build my own products at **[smk.](https://wearesmk.com)**, an independent product studio — Right of Way and LumeClip come from there.
+Fullstack developer at **[Instivo](https://instivo.com.br)**, living in Joinville, Brazil.
+
+After hours I run **[smk.](https://wearesmk.com)**, a small studio where I ship my own apps. Right of Way and LumeClip are made there.
 
 ```ts
 const victor = {
   work: ["TypeScript", "React", "Next.js", "Node.js"],
   sideProjects: ["Rust", "React Native", "AI tooling"],
-  focus: "products that feel good to use, code that's easy to change",
+  likes: "fast apps, simple code",
 };
 ```
 
@@ -17,11 +18,11 @@ const victor = {
 
 | | |
 |---|---|
-| **[smk.](https://wearesmk.com)** | Site of my independent product studio, home of Right of Way and LumeClip. · `Next.js` `React` `Tailwind CSS` |
-| **[Right of Way](https://playrightofway.com)** | Online multiplayer game for iOS and Android, with daily challenges. Coming soon. · `React Native` `Expo` `Hono` `Postgres` |
-| **[LumeClip](https://lumeclip.com)** | SaaS that turns long videos into short vertical clips: AI transcription, highlight detection, smart reframe and karaoke captions. · `Next.js` `Fastify` `FFmpeg` `BullMQ` |
-| **[objection](https://github.com/victorserpa/objection)** | Adversarial PR review for AI coding agents. Accusers, a defender and a judge review the diff; a gate blocks the PR until it's approved. · `Shell` |
-| **[vjcraft](https://github.com/victorserpa/vjcraft)** | Open-source live visuals (VJ) app: layers, clips, effects, LED / Art-Net, NDI, Syphon. · `Rust` |
+| **[smk.](https://wearesmk.com)** | My studio's site. Right of Way and LumeClip live here. · `Next.js` `React` `Tailwind CSS` |
+| **[Right of Way](https://playrightofway.com)** | Multiplayer game for iOS and Android with a daily challenge. Launching soon. · `React Native` `Expo` `Hono` `Postgres` |
+| **[LumeClip](https://lumeclip.com)** | Cuts long videos into short vertical clips. Transcribes, finds the best moments, reframes and adds karaoke captions. · `Next.js` `Fastify` `FFmpeg` `BullMQ` |
+| **[objection](https://github.com/victorserpa/objection)** | PR review for AI coding agents, set up as a trial. Accusers attack the diff, a defender answers, a judge decides. No approval, no merge. · `Shell` |
+| **[vjcraft](https://github.com/victorserpa/vjcraft)** | Open-source VJ app for live visuals. Layers, clips, effects, LED via Art-Net, NDI and Syphon. · `Rust` |
 
 ### Stack
 
@@ -41,8 +42,8 @@ const victor = {
 
 ### Experience
 
-- **Instivo** — Fullstack Developer, current
-- **SZ Soluções** — Fullstack Developer · BeeStock (WMS), client portals and B2B e-commerce for Brazil and Chile
+- **Instivo**, Fullstack Developer (now)
+- **SZ Soluções**, Fullstack Developer. Worked on BeeStock (WMS), client portals and B2B stores for Brazil and Chile
 
 ### Stats
 
