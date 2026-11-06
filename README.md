@@ -1,51 +1,60 @@
-  ### Hello World!  <img src="https://github.com/sciencepal/sciencepal/blob/master/assets/Hi.gif" width="29px">
-  ![](https://komarev.com/ghpvc/?username=victorserpa&label=Profile%20Visits&color=blue&style=for-the-badge)
-  
-<img src="https://github.com/sciencepal/sciencepal/blob/master/assets/life_balance.gif" alt="side Image" align="right" width="200" height="auto" />
+## Victor Serpa
 
- - 🏦 I'm currently a FullStack Developer at SZ Solutions in Joinville/SC, dedicated to improving our WMS, BeeStock and our clients' e-commerce.
-  
-  #### 📫 How to reach me:
-  
-  [<img src="https://img.icons8.com/color/48/000000/linkedin.png" width="3.5%"/>](https://www.linkedin.com/in/victorserpa/)
-  [<img src="https://img.icons8.com/fluent/48/000000/facebook-new.png" width="3.5%"/>](https://www.facebook.com/schmviitoor/)
-  [<img src="https://img.icons8.com/fluent/48/000000/instagram-new.png" width="3.5%"/>](https://www.instagram.com/schmvitor/)
-  <a href="mailto:schmvitoor@gmail.com"> <img src="https://img.icons8.com/fluent/48/000000/gmail.png" width="3.5%"/>
-  
-  #### 👨🏻‍💻 Languages and Tools <br />
-[<img height="48px" width="48px" alt="Icone React" src="https://skillicons.dev/icons?i=react"/>](https://pt-br.react.dev)
-[<img height="48px" width="48px" alt="Icone NextJS" src="https://skillicons.dev/icons?i=nextjs"/>](https://nextjs.org/)
-[<img height="48px" width="48px" alt="Icone TailwindCSS" src="https://skillicons.dev/icons?i=tailwind"/>](https://tailwindcss.com/)
-[<img height="48px" width="48px" alt="Icone Node.js" src="https://skillicons.dev/icons?i=nodejs"/>](https://nodejs.org)
-[<img height="48px" width="48px" alt="Icone Java Script" src="https://skillicons.dev/icons?i=js"/>](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
-[<img height="48px" width="48px" alt="Icone TypeScript" src="https://skillicons.dev/icons?i=ts"/>](https://www.typescriptlang.org/pt/)
-[<img height="48px" width="48px" alt="Icone Redux" src="https://skillicons.dev/icons?i=redux"/>](https://redux.js.org/)
+Fullstack developer at **[Instivo](https://instivo.com.br)**, based in Joinville, Brazil.
 
-##
+```ts
+const victor = {
+  work: ["TypeScript", "React", "Next.js", "Node.js"],
+  sideProjects: ["Rust", "React Native", "AI tooling"],
+  focus: "products that feel good to use, code that's easy to change",
+};
+```
 
-#### Professional Experience:
-Below is an overview of my most recent work experience:
+<img src="https://komarev.com/ghpvc/?username=victorserpa&label=profile%20views&color=grey&style=flat-square" alt="Profile views" />
 
-[<img align="left" height="94px" width="150px" alt="Warpnet" src="https://i.postimg.cc/v85c8YjN/Prancheta-3.png"/>](https://szsolucoes.com.br)
+### Projects
 
-**Full Stack Developer** \
-[**SZ Soluções**](https://szsolucoes.com.br) • Full-time \
-Languages & Technologies: `JavaScript`, `TypeScript`, `NodeJS`, `React`, `React Native`,\
-Highlighted Projects: [BeeStock (WMS)](<https://materiais.szsolucoes.com.br/beestock>), [Krona Client Portal](https://cliente.krona.com.br/Login), [Checkbuy Chile (e-Shop)](<https://shop.sonepar.cl/>), [Checkbuy Brasil (e-Shop)](<https://shop.nortel.com.br/>)
-<br/>
+| | |
+|---|---|
+| **Right of Way** | Online multiplayer game for iOS and Android, with daily challenges. Coming soon. · `React Native` `Expo` `Hono` `Postgres` |
+| **[LumeClip](https://lumeclip.com)** | SaaS that turns long videos into short vertical clips: AI transcription, highlight detection, smart reframe and karaoke captions. · `Next.js` `Fastify` `FFmpeg` `BullMQ` |
+| **[objection](https://github.com/victorserpa/objection)** | Adversarial PR review for AI coding agents. Accusers, a defender and a judge review the diff; a gate blocks the PR until it's approved. · `Shell` |
+| **[vjcraft](https://github.com/victorserpa/vjcraft)** | Open-source live visuals (VJ) app: layers, clips, effects, LED / Art-Net, NDI, Syphon. · `Rust` |
 
-##
+### Stack
 
-### Learn more about me
+<p>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" alt="TypeScript" title="TypeScript" height="32" />&nbsp;
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" alt="React" title="React" height="32" />&nbsp;
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" alt="Next.js" title="Next.js" height="32" />&nbsp;
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg" alt="Node.js" title="Node.js" height="32" />&nbsp;
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind CSS" title="Tailwind CSS" height="32" />&nbsp;
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg" alt="PostgreSQL" title="PostgreSQL" height="32" />&nbsp;
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg" alt="Redis" title="Redis" height="32" />&nbsp;
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg" alt="Docker" title="Docker" height="32" />&nbsp;
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/rust/rust-original.svg" alt="Rust" title="Rust" height="32" />&nbsp;
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swift/swift-original.svg" alt="Swift" title="Swift" height="32" />&nbsp;
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" alt="Git" title="Git" height="32" />&nbsp;
+</p>
 
-- **Portfólio:** [www.victorserpa.dev](https://www.victorserpa.dev)
-- **LinkedIn:** [LinkedIn](https://www.linkedin.com/in/victorserpa/)
+### Experience
 
-##
+- **Instivo** — Fullstack Developer, current
+- **SZ Soluções** — Fullstack Developer · BeeStock (WMS), client portals and B2B e-commerce for Brazil and Chile
 
-#### Estatísticas:
-[<img height="180px" alt="GitHub Statistics" src="https://github-readme-stats.vercel.app/api/top-langs/?username=victorserpa&layout=compact&langs_count=7&theme=radical"/>](https://github.com/)
+### Stats
 
-<img height="180px" alt="GitHub Statistics" src="http://github-readme-streak-stats.herokuapp.com/?user=victorserpa&amp;theme=radical"/>
+<p>
+  <img height="165" src="./profile-summary-card-output/github_dark/3-stats.svg" alt="GitHub stats" />
+  <img height="165" src="./profile-summary-card-output/github_dark/2-most-commit-language.svg" alt="Most used languages" />
+</p>
+<img height="160" src="https://streak-stats.demolab.com?user=victorserpa&hide_border=true&theme=github-dark-blue" alt="Streak" />
 
-<img height="180px" alt="GitHub Statistics" src="https://github-readme-stats.vercel.app/api/?username=victorserpa&show_icons=true&include_all_commits=true&theme=radical"/>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/victorserpa/victorserpa/output/github-snake-dark.svg" />
+  <img alt="Snake eating contributions" src="https://raw.githubusercontent.com/victorserpa/victorserpa/output/github-snake.svg" />
+</picture>
+
+### Contact
+
+[victorserpa.dev](https://www.victorserpa.dev) · [LinkedIn](https://www.linkedin.com/in/victorserpa/) · [schmvitoor@gmail.com](mailto:schmvitoor@gmail.com)
