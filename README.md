@@ -16,7 +16,7 @@ const victor = {
 
 | | |
 |---|---|
-| **Right of Way** | Online multiplayer game for iOS and Android, with daily challenges. Coming soon. · `React Native` `Expo` `Hono` `Postgres` |
+| **[Right of Way](https://playrightofway.com)** | Online multiplayer game for iOS and Android, with daily challenges. Coming soon. · `React Native` `Expo` `Hono` `Postgres` |
 | **[LumeClip](https://lumeclip.com)** | SaaS that turns long videos into short vertical clips: AI transcription, highlight detection, smart reframe and karaoke captions. · `Next.js` `Fastify` `FFmpeg` `BullMQ` |
 | **[objection](https://github.com/victorserpa/objection)** | Adversarial PR review for AI coding agents. Accusers, a defender and a judge review the diff; a gate blocks the PR until it's approved. · `Shell` |
 | **[vjcraft](https://github.com/victorserpa/vjcraft)** | Open-source live visuals (VJ) app: layers, clips, effects, LED / Art-Net, NDI, Syphon. · `Rust` |
