@@ -17,6 +17,7 @@ const victor = {
 
 | | |
 |---|---|
+| **[smk.](https://wearesmk.com)** | Site of my independent product studio, home of Right of Way and LumeClip. · `Next.js` `React` `Tailwind CSS` |
 | **[Right of Way](https://playrightofway.com)** | Online multiplayer game for iOS and Android, with daily challenges. Coming soon. · `React Native` `Expo` `Hono` `Postgres` |
 | **[LumeClip](https://lumeclip.com)** | SaaS that turns long videos into short vertical clips: AI transcription, highlight detection, smart reframe and karaoke captions. · `Next.js` `Fastify` `FFmpeg` `BullMQ` |
 | **[objection](https://github.com/victorserpa/objection)** | Adversarial PR review for AI coding agents. Accusers, a defender and a judge review the diff; a gate blocks the PR until it's approved. · `Shell` |
