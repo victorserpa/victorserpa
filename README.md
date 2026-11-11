@@ -1,12 +1,10 @@
-<img src="./assets/avatar.png" alt="Victor Serpa" width="170" align="right" />
+<p align="center"><img src="./assets/avatar.png" alt="Victor Serpa" width="150" /></p>
 
-## Victor Serpa
+<h2 align="center">Victor Serpa</h2>
 
 Fullstack developer at **[Instivo](https://instivo.com.br)**, living in Joinville, Brazil.
 
 After hours I run **[smk.](https://wearesmk.com)**, a small studio where I ship my own apps. Right of Way and LumeClip are made there.
-
-<br clear="right" />
 
 ```ts
 const victor = {
