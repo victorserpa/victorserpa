@@ -1,65 +1,15 @@
-<p align="center"><img src="./assets/avatar.png" alt="Victor Serpa" width="150" /></p>
+<!-- Cards are SVGs drawn by scripts/render_cards.py and refreshed daily by
+     .github/workflows/cards.yml. Keep each row of cards on one line with no spaces between them. -->
+<div align="center">
+<a href="https://www.victorserpa.dev"><img src="./cards/hero.svg" width="100%" alt="Victor Serpa. Fullstack developer at Instivo. After hours I build my own apps at smk." /></a><br>
+<img src="./cards/heatmap.svg" width="100%" alt="Contribution graph for the last year, refreshed daily" /><br>
+<img src="./cards/activity.svg" width="100%" alt="Contributions in the last 12 months by month, with streak, active days and busiest day" /><br>
+<a href="https://instivo.com.br"><img src="./cards/tile-work.svg" width="33.333%" alt="WORK: Instivo" /></a><a href="https://wearesmk.com"><img src="./cards/tile-studio.svg" width="33.333%" alt="STUDIO: smk." /></a><a href="https://github.com/victorserpa?tab=repositories"><img src="./cards/tile-open-source.svg" width="33.333%" alt="OPEN SOURCE: public repos" /></a><br>
+<picture><source media="(prefers-color-scheme: dark)" srcset="./cards/title-dark.svg" /><img src="./cards/title-light.svg" width="100%" alt="What I'm building" /></picture><br>
+<a href="https://playrightofway.com"><img src="./cards/repo-right-of-way.svg" width="33.333%" alt="right-of-way" /></a><a href="https://lumeclip.com"><img src="./cards/repo-lumeclip.svg" width="33.333%" alt="lumeclip" /></a><a href="https://github.com/victorserpa/objection"><img src="./cards/repo-objection.svg" width="33.333%" alt="objection" /></a>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/victorserpa/victorserpa/output/github-snake-dark.svg" /><img src="https://raw.githubusercontent.com/victorserpa/victorserpa/output/github-snake.svg" width="100%" alt="Snake eating my contributions" /></picture>
+</div>
 
-<h2 align="center">Victor Serpa</h2>
-
-<p align="center">Fullstack developer at <b><a href="https://instivo.com.br">Instivo</a></b>, living in Joinville, Brazil.</p>
-
-<p align="center">After hours I run <b><a href="https://wearesmk.com">smk.</a></b>, a small studio where I ship my own apps. Right of Way and LumeClip are made there.</p>
-
-```ts
-const victor = {
-  work: ["TypeScript", "React", "Next.js", "Node.js"],
-  sideProjects: ["Rust", "React Native", "AI tooling"],
-  likes: "fast apps, simple code",
-};
-```
-
-<img src="https://komarev.com/ghpvc/?username=victorserpa&label=profile%20views&color=grey&style=flat-square" alt="Profile views" />
-
-### Projects
-
-| | |
-|---|---|
-| **[smk.](https://wearesmk.com)** | My studio's site. Right of Way and LumeClip live here. · `Next.js` `React` `Tailwind CSS` |
-| **[Right of Way](https://playrightofway.com)** | Multiplayer game for iOS and Android with a daily challenge. Launching soon. · `React Native` `Expo` `Hono` `Postgres` |
-| **[LumeClip](https://lumeclip.com)** | Cuts long videos into short vertical clips. Transcribes, finds the best moments, reframes and adds karaoke captions. · `Next.js` `Fastify` `FFmpeg` `BullMQ` |
-| **[objection](https://github.com/victorserpa/objection)** | PR review for AI coding agents, set up as a trial. Accusers attack the diff, a defender answers, a judge decides. No approval, no merge. · `Shell` |
-| **[vjcraft](https://github.com/victorserpa/vjcraft)** | Open-source VJ app for live visuals. Layers, clips, effects, LED via Art-Net, NDI and Syphon. · `Rust` |
-
-### Stack
-
-<p>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" alt="TypeScript" title="TypeScript" height="32" />&nbsp;
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" alt="React" title="React" height="32" />&nbsp;
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" alt="Next.js" title="Next.js" height="32" />&nbsp;
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg" alt="Node.js" title="Node.js" height="32" />&nbsp;
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind CSS" title="Tailwind CSS" height="32" />&nbsp;
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg" alt="PostgreSQL" title="PostgreSQL" height="32" />&nbsp;
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg" alt="Redis" title="Redis" height="32" />&nbsp;
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg" alt="Docker" title="Docker" height="32" />&nbsp;
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/rust/rust-original.svg" alt="Rust" title="Rust" height="32" />&nbsp;
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swift/swift-original.svg" alt="Swift" title="Swift" height="32" />&nbsp;
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" alt="Git" title="Git" height="32" />&nbsp;
+<p align="center">
+<a href="https://www.victorserpa.dev">victorserpa.dev</a> &nbsp;/&nbsp; <a href="https://www.linkedin.com/in/victorserpa/">linkedin</a> &nbsp;/&nbsp; <a href="https://wearesmk.com">smk.</a> &nbsp;/&nbsp; <a href="mailto:schmvitoor@gmail.com">email</a>
 </p>
-
-### Experience
-
-- **Instivo**, Fullstack Developer (now)
-- **SZ Soluções**, Fullstack Developer. Worked on BeeStock (WMS), client portals and B2B stores for Brazil and Chile
-
-### Stats
-
-<p>
-  <img height="165" src="./profile-summary-card-output/github_dark/3-stats.svg" alt="GitHub stats" />
-  <img height="165" src="./profile-summary-card-output/github_dark/2-most-commit-language.svg" alt="Most used languages" />
-</p>
-<img height="160" src="https://streak-stats.demolab.com?user=victorserpa&hide_border=true&theme=github-dark-blue" alt="Streak" />
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/victorserpa/victorserpa/output/github-snake-dark.svg" />
-  <img alt="Snake eating contributions" src="https://raw.githubusercontent.com/victorserpa/victorserpa/output/github-snake.svg" />
-</picture>
-
-### Contact
-
-[victorserpa.dev](https://www.victorserpa.dev) · [LinkedIn](https://www.linkedin.com/in/victorserpa/) · [schmvitoor@gmail.com](mailto:schmvitoor@gmail.com)
