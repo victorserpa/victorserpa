@@ -32,6 +32,7 @@ SANS = "'Helvetica Neue',Helvetica,Arial,sans-serif"
 MONO = "ui-monospace,SFMono-Regular,Menlo,Consolas,monospace"
 SNAKE = "#ffb547"
 BODY = 5  # head + 4 segments
+BACK_PENALTY = 4  # extra steps a target behind the head must save to be chosen
 LED = ["#18201b", "#174a2c", "#1d7a44", "#28b862", "#3dff8f"]
 
 SETLIST = [
@@ -143,39 +144,44 @@ def ledwall(d):
     route = [pos]
     left = set(lit)
     while left:
-        near = sorted(left, key=lambda c: (abs(c[0] - pos[0]) + abs(c[1] - pos[1]), c))[:3]
-        target = rng.choice(near)
-        # shortest grid path that never crosses the snake's own body; neighbour
-        # order is shuffled so equal-length paths vary (staircases, not L shapes).
-        # Every step blocks only the body cells that will still be there, so the
-        # tail end frees up as the snake moves away from it.
-        def search():
-            seen = {pos: (None, 0)}
-            queue = deque([pos])
-            while queue:
-                cur = queue.popleft()
-                if cur == target:
-                    return seen
-                dist = seen[cur][1] + 1
-                recent = route[-BODY:]
-                blocked = set(recent[dist:]) if dist < len(recent) else set()
-                nbrs = [(cur[0] + dc, cur[1] + dr) for dc, dr in ((1, 0), (-1, 0), (0, 1), (0, -1))]
-                rng.shuffle(nbrs)
-                for nb in nbrs:
-                    if 0 <= nb[0] < cols and 0 <= nb[1] < 7 and nb not in seen and nb not in blocked:
-                        seen[nb] = (cur, dist)
-                        queue.append(nb)
-            return seen
-        found = search()
-        prev = {k: v[0] for k, v in found.items()}
+        # One breadth-first search from the head gives the real travel distance to
+        # every cell, avoiding the body cells still occupied at that moment (the
+        # tail end frees up as the snake moves). Neighbour order is shuffled so
+        # equal-length paths vary, which reads as staircases instead of L shapes.
+        seen = {pos: (None, 0)}
+        queue = deque([pos])
+        recent = route[-BODY:]
+        while queue:
+            cur = queue.popleft()
+            dist = seen[cur][1] + 1
+            blocked = set(recent[dist:]) if dist < len(recent) else set()
+            nbrs = [(cur[0] + dc, cur[1] + dr) for dc, dr in ((1, 0), (-1, 0), (0, 1), (0, -1))]
+            rng.shuffle(nbrs)
+            for nb in nbrs:
+                if 0 <= nb[0] < cols and 0 <= nb[1] < 7 and nb not in seen and nb not in blocked:
+                    seen[nb] = (cur, dist)
+                    queue.append(nb)
+        # go for the closest lit day it can actually reach, preferring what lies
+        # ahead over what is behind it (turning back costs a U-turn round its body);
+        # ties are broken at random
+        hc, hr = (pos[0] - route[-2][0], pos[1] - route[-2][1]) if len(route) > 1 else (1, 0)
+
+        def cost(c):
+            behind = (c[0] - pos[0]) * hc + (c[1] - pos[1]) * hr < 0
+            return seen[c][1] + (BACK_PENALTY if behind else 0)
+
+        reachable = [c for c in left if c in seen]
+        best = min(cost(c) for c in reachable)
+        target = rng.choice(sorted(c for c in reachable if cost(c) == best))
         leg = []
         node = target
         while node != pos:
             leg.append(node)
-            node = prev[node]
-        route.extend(reversed(leg))
+            node = seen[node][0]
+        leg.reverse()
+        route.extend(leg)
         pos = target
-        left.discard(target)
+        left.difference_update(leg)  # anything lit it crossed on the way is eaten too
     step, pause = 0.2, 3.0
     order = {}
     for idx, cell in enumerate(route):
