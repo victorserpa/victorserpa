@@ -1,7 +1,7 @@
 """Render the profile README cards as standalone SVGs ("dark stage" design).
 
 A nod to vjcraft: near-black stage, one neon accent, the contribution graph as an
-LED wall, monthly activity as a segmented level meter and projects as a setlist.
+LED wall and projects as a setlist.
 
 Reads the contribution calendar from the GitHub GraphQL API (needs GITHUB_TOKEN)
 and writes every card into cards/. Standard library only, so the workflow needs
@@ -12,7 +12,6 @@ import html
 import json
 import os
 import urllib.request
-from collections import OrderedDict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -98,30 +97,14 @@ GLOW = ('<defs><filter id="glow" x="-50%" y="-50%" width="200%" height="200%">'
 
 
 def hero():
-    h = 440
-    lines = (ROOT / "assets" / "portrait.txt").read_text().splitlines()
-    cw, ch = 2.4, 4.4
-    ax = W - 44 - max(len(l) for l in lines) * cw
-    ay = (h - len(lines) * ch) / 2
-    rows = []
-    for i, line in enumerate(lines):
-        if not line.strip():
-            continue
-        y = ay + (i + 1) * ch
-        t = 0.022 * i
-        rows.append(
-            f'<clipPath id="r{i}"><rect x="{ax:.1f}" y="{y - ch:.1f}" width="{len(line) * cw + 2:.1f}" height="{ch + 1:.1f}">'
-            f'{reveal("width", 0, round(len(line) * cw + 2, 1), t, 0.35)}</rect></clipPath>'
-            f'<text x="{ax:.1f}" y="{y:.1f}" clip-path="url(#r{i})" xml:space="preserve">{esc(line)}</text>')
+    h = 340
     body = panel(h) + f'''
-<g font-family="{MONO}" font-size="4" fill="#c9f5d9">{"".join(rows)}</g>
 <circle cx="50" cy="62" r="5" fill="{NEON}"><animate attributeName="opacity" values="1;.25;1" dur="1.6s" repeatCount="indefinite"/></circle>
 <text x="64" y="67" font-family="{MONO}" font-size="13" fill="{NEON}">live from Joinville, Brazil</text>
-<text x="40" y="186" font-family="{SANS}" font-weight="700" font-size="76" letter-spacing="-2" fill="{INK}">Victor</text>
-<text x="40" y="266" font-family="{SANS}" font-weight="700" font-size="76" letter-spacing="-2" fill="{INK}">Serpa</text>
-<text x="42" y="318" font-family="{SANS}" font-size="18" fill="{MUTE}">Fullstack developer at <tspan fill="{INK}">Instivo</tspan>.</text>
-<text x="42" y="344" font-family="{SANS}" font-size="18" fill="{MUTE}">After hours I ship my own apps at <tspan fill="{INK}">smk.</tspan></text>
-<text x="42" y="396" font-family="{MONO}" font-size="13" fill="{NEON}">victorserpa.dev →</text>'''
+<text x="40" y="160" font-family="{SANS}" font-weight="700" font-size="76" letter-spacing="-2" fill="{INK}">Victor Serpa</text>
+<text x="42" y="214" font-family="{SANS}" font-size="20" fill="{MUTE}">Fullstack developer at <tspan fill="{INK}">Instivo</tspan>.</text>
+<text x="42" y="244" font-family="{SANS}" font-size="20" fill="{MUTE}">After hours I ship my own apps at <tspan fill="{INK}">smk.</tspan></text>
+<text x="42" y="296" font-family="{MONO}" font-size="13" fill="{NEON}">victorserpa.dev →</text>'''
     return svg(h, body, "Victor Serpa. Fullstack developer at Instivo. After hours I ship my own apps at smk.")
 
 
@@ -132,7 +115,7 @@ def level(n, mx):
 
 
 def ledwall(d):
-    h = 236
+    h = 270
     days = d["days"]
     start = days[0][0]
     mx = sorted(c for _, c in days)[int(len(days) * 0.95)] or 1
@@ -155,10 +138,16 @@ def ledwall(d):
             seen.add((day.year, day.month))
             months.append(f'<text x="{cx - 5:.1f}" y="{y0 + 7 * pitch + 10}" font-family="{MONO}" font-size="10" fill="{MUTE}">{day.strftime("%b").lower()}</text>')
     total = sum(n for _, n in days)
+    cur, best = streaks(days)
+    active = sum(1 for _, n in days if n)
+    peak = max(n for _, n in days)
+    stats = (f'<tspan fill="{INK}">{cur}</tspan>-day streak   ·   longest <tspan fill="{INK}">{best}</tspan>   ·   '
+             f'<tspan fill="{INK}">{active}</tspan> active days   ·   best day <tspan fill="{INK}">{peak}</tspan>')
     body = panel(h) + GLOW + f'''
 <text x="40" y="50" font-family="{SANS}" font-weight="700" font-size="20" fill="{INK}">{total:,} contributions</text>
 <text x="{W - 40}" y="50" text-anchor="end" font-family="{MONO}" font-size="12" fill="{MUTE}">last 12 months · updated daily</text>
-{''.join(dots)}{''.join(months)}'''
+{''.join(dots)}{''.join(months)}
+<text x="{W / 2}" y="{h - 24}" text-anchor="middle" font-family="{MONO}" font-size="12" fill="{MUTE}" xml:space="preserve">{stats}</text>'''
     return svg(h, body, f"LED wall of {total} contributions in the last 12 months")
 
 
@@ -176,43 +165,6 @@ def streaks(days):
         run = run + 1 if n else 0
         best = max(best, run)
     return cur, best
-
-
-def meter(d):
-    h = 290
-    days = d["days"][-365:]
-    per = OrderedDict()
-    for day, n in days:
-        per[(day.year, day.month)] = per.get((day.year, day.month), 0) + n
-    months = list(per.items())[-12:]
-    mx = max(v for _, v in months) or 1
-    cur, best = streaks(d["days"])
-    active = sum(1 for _, n in days if n)
-    busiest = max(n for _, n in days)
-    segs, seg_h, gap = 12, 9, 3
-    col_w, step = 44, 66
-    x0 = (W - (len(months) - 1) * step - col_w) / 2
-    base = 216
-    cols = []
-    for i, ((y, m), v) in enumerate(months):
-        lit = round(segs * v / mx) if v else 0
-        x = x0 + i * step
-        for s in range(segs):
-            yy = base - (s + 1) * (seg_h + gap) + gap
-            color = LED[0]
-            if s < lit:
-                color = "#ff5d5d" if s >= segs - 2 else ("#ffb547" if s >= segs - 5 else NEON)
-            anim = reveal("opacity", 0, 1, i * 0.06 + s * 0.03, 0.15) if s < lit else ""
-            op = ""
-            cols.append(f'<rect x="{x:.1f}" y="{yy}" width="{col_w}" height="{seg_h}" rx="2" fill="{color}"{op}>{anim}</rect>')
-        cols.append(f'<text x="{x + col_w / 2:.1f}" y="{base + 18}" text-anchor="middle" font-family="{MONO}" font-size="10" fill="{MUTE}">{dt.date(y, m, 1).strftime("%b").lower()}</text>')
-    stats = (f'<tspan fill="{INK}">{cur}</tspan>-day streak   ·   longest <tspan fill="{INK}">{best}</tspan>   ·   '
-             f'<tspan fill="{INK}">{active}</tspan> active days   ·   peak day <tspan fill="{INK}">{busiest}</tspan>')
-    body = panel(h) + f'''
-<text x="40" y="44" font-family="{SANS}" font-weight="700" font-size="20" fill="{INK}">Levels, month by month</text>
-{''.join(cols)}
-<text x="{W / 2}" y="{h - 22}" text-anchor="middle" font-family="{MONO}" font-size="12" fill="{MUTE}" xml:space="preserve">{stats}</text>'''
-    return svg(h, body, f"Monthly activity meter. {cur}-day streak, longest {best}, {active} active days, peak day {busiest}")
 
 
 def setlist_head():
@@ -242,7 +194,7 @@ def main():
     OUT.mkdir(exist_ok=True)
     for old in OUT.glob("*.svg"):
         old.unlink()
-    files = {"hero.svg": hero(), "ledwall.svg": ledwall(d), "meter.svg": meter(d), "setlist.svg": setlist_head()}
+    files = {"hero.svg": hero(), "ledwall.svg": ledwall(d), "setlist.svg": setlist_head()}
     for i, p in enumerate(SETLIST, 1):
         files[f"track-{p['slug']}.svg"] = track(i, p, d)
     for name, content in files.items():
