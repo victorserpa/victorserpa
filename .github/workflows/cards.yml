@@ -8,7 +8,7 @@ on:
     branches: [main]
     paths:
       - "scripts/render_cards.py"
-      - "assets/avatar-hero.webp"
+      - "assets/portrait.txt"
 
 permissions:
   contents: write

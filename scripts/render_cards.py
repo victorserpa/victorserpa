@@ -1,10 +1,12 @@
-"""Render the profile README cards as standalone SVGs.
+"""Render the profile README cards as standalone SVGs ("dark stage" design).
+
+A nod to vjcraft: near-black stage, one neon accent, the contribution graph as an
+LED wall, monthly activity as a segmented level meter and projects as a setlist.
 
 Reads the contribution calendar from the GitHub GraphQL API (needs GITHUB_TOKEN)
 and writes every card into cards/. Standard library only, so the workflow needs
-no installs. Fonts are system stacks: SVGs loaded through <img> cannot fetch web fonts.
+no installs. Fonts are system stacks: SVGs loaded through <img> cannot fetch fonts.
 """
-import base64
 import datetime as dt
 import html
 import json
@@ -18,36 +20,30 @@ OUT = ROOT / "cards"
 USER = os.environ.get("PROFILE_USER", "victorserpa")
 
 W = 880
-BG = "#f4f2ec"
-INK = "#16161a"
-MUTE = "#6b6b72"
-ACC = "#1f8a5b"
-SERIF = "Georgia,'Iowan Old Style','Times New Roman',serif"
-SANS = "-apple-system,'Segoe UI',Helvetica,Arial,sans-serif"
+STAGE = "#0a0c0b"
+SURFACE = "#111513"
+LINE = "#1f2522"
+INK = "#eef1ee"
+MUTE = "#9aa39d"
+NEON = "#3dff8f"
+DIM = "#1a2a21"
+SANS = "'Helvetica Neue',Helvetica,Arial,sans-serif"
 MONO = "ui-monospace,SFMono-Regular,Menlo,Consolas,monospace"
-LEVELS = ["#e4e1d8", "#bfe3cc", "#7fcb9d", "#3ea872", "#1f8a5b", "#0f5c3b"]
+LED = ["#18201b", "#174a2c", "#1d7a44", "#28b862", "#3dff8f"]
 
-PROJECTS = [
-    {"name": "right-of-way", "href": "https://playrightofway.com", "color": "#e8a33d",
-     "desc": ["Multiplayer game for iOS and Android", "with a daily challenge."],
-     "meta": "React Native · launching soon"},
-    {"name": "lumeclip", "href": "https://lumeclip.com", "color": "#7a5cf0",
-     "desc": ["Cuts long videos into short vertical", "clips with captions, ready to post."],
-     "meta": "Next.js · live"},
-    {"name": "objection", "href": "https://github.com/victorserpa/objection", "color": "#d9534f",
-     "desc": ["AI agents review the PR as a trial:", "no approval, no merge."],
-     "meta": "Shell · ★ {objection_stars}"},
+SETLIST = [
+    {"slug": "smk", "name": "smk.", "what": "My product studio. Where the apps below are made.",
+     "stack": "Next.js", "status": "live"},
+    {"slug": "right-of-way", "name": "Right of Way", "what": "Multiplayer game for iOS and Android, daily challenge.",
+     "stack": "React Native · Expo", "status": "soon"},
+    {"slug": "lumeclip", "name": "LumeClip", "what": "Long videos in, short vertical clips with captions out.",
+     "stack": "Next.js · FFmpeg", "status": "live"},
+    {"slug": "objection", "name": "objection", "what": "AI agents put the PR on trial. No approval, no merge.",
+     "stack": "Shell · ★ {objection_stars}", "status": "open"},
+    {"slug": "vjcraft", "name": "vjcraft", "what": "Live visuals app: layers, effects, LED via Art-Net, NDI.",
+     "stack": "Rust", "status": "open"},
 ]
-
-TILES = [
-    {"key": "WORK", "bg": ACC, "fg": "#ffffff", "big": ("Instivo", ""), "href": "https://instivo.com.br",
-     "lines": ["Fullstack developer. Web products", "built with TypeScript and React."]},
-    {"key": "STUDIO", "bg": INK, "fg": "#ffffff", "big": ("smk.", " studio"), "href": "https://wearesmk.com",
-     "lines": ["My own apps, after hours:", "Right of Way and LumeClip."]},
-    {"key": "OPEN SOURCE", "bg": "#f2c14e", "fg": INK, "big": ("{public_repos}", " repos"),
-     "href": "https://github.com/victorserpa?tab=repositories",
-     "lines": ["From a VJ app in Rust to", "a courtroom for code review."]},
-]
+STATUS = {"live": ("ON AIR", NEON), "soon": ("SOON", "#ffb547"), "open": ("OPEN SOURCE", "#7cc4ff")}
 
 
 def gql(query, variables):
@@ -65,94 +61,112 @@ def gql(query, variables):
 
 def fetch():
     q = """query($login:String!){ user(login:$login){
-      repositories(ownerAffiliations:OWNER, privacy:PUBLIC){ totalCount }
       repository(name:"objection"){ stargazerCount }
       contributionsCollection{ contributionCalendar{ totalContributions
         weeks{ contributionDays{ date contributionCount } } } } } }"""
     u = gql(q, {"login": USER})["user"]
     days = [(dt.date.fromisoformat(d["date"]), d["contributionCount"])
             for w in u["contributionsCollection"]["contributionCalendar"]["weeks"] for d in w["contributionDays"]]
-    return {
-        "days": days,
-        "total": u["contributionsCollection"]["contributionCalendar"]["totalContributions"],
-        "public_repos": u["repositories"]["totalCount"],
-        "objection_stars": (u.get("repository") or {}).get("stargazerCount", 0),
-    }
+    return {"days": days, "objection_stars": (u.get("repository") or {}).get("stargazerCount", 0)}
+
+
+def reveal(attr, start, end, delay, dur):
+    """Animate attr from start to end after delay. Before the timeline runs the
+    element keeps its final value, so static renderers still show everything."""
+    total = delay + dur
+    k = delay / total
+    return (f'<animate attributeName="{attr}" values="{start};{start};{end}" keyTimes="0;{k:.3f};1" '
+            f'dur="{total:.2f}s" begin="0s" fill="freeze"/>')
 
 
 def esc(s):
     return html.escape(str(s), quote=True)
 
 
-def svg(h, body, label):
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{h}" viewBox="0 0 {W} {h}" '
+def svg(h, body, label, w=W):
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" '
             f'role="img" aria-label="{esc(label)}">{body}</svg>')
 
 
-def card_bg(h, pad=8):
-    return f'<rect x="{pad}" y="{pad}" width="{W - 2 * pad}" height="{h - 2 * pad}" rx="14" fill="{BG}"/>'
+def panel(h, w=W):
+    return (f'<rect x="4" y="4" width="{w - 8}" height="{h - 8}" rx="10" fill="{SURFACE}" stroke="{LINE}"/>')
+
+
+GLOW = ('<defs><filter id="glow" x="-50%" y="-50%" width="200%" height="200%">'
+        '<feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/>'
+        '<feMergeNode in="SourceGraphic"/></feMerge></filter></defs>')
 
 
 def hero():
-    h = 380
-    avatar = base64.b64encode((ROOT / "assets" / "avatar-hero.webp").read_bytes()).decode()
-    body = card_bg(h) + f'''
-<image href="data:image/webp;base64,{avatar}" x="590" y="34" width="216" height="313" preserveAspectRatio="xMidYMid meet"/>
-<rect x="44" y="48" width="8" height="8" fill="{ACC}"/>
-<text x="62" y="57" font-family="{MONO}" font-size="12" letter-spacing="1.6" fill="{MUTE}">FULLSTACK DEVELOPER · JOINVILLE, BRAZIL</text>
-<text x="38" y="160" font-family="{SERIF}" font-size="92" letter-spacing="-2" fill="{INK}">Victor</text>
-<text x="38" y="250" font-family="{SERIF}" font-style="italic" font-size="92" letter-spacing="-2" fill="{INK}">Serpa<tspan fill="{ACC}">.</tspan></text>
-<text x="44" y="298" font-family="{SANS}" font-size="17" fill="{MUTE}">Shipping web products at Instivo.</text>
-<text x="44" y="322" font-family="{SANS}" font-size="17" fill="{MUTE}">After hours I build my own apps at smk.</text>'''
-    return svg(h, body, "Victor Serpa. Fullstack developer at Instivo. After hours I build my own apps at smk.")
+    h = 440
+    lines = (ROOT / "assets" / "portrait.txt").read_text().splitlines()
+    cw, ch = 2.4, 4.4
+    ax = W - 44 - max(len(l) for l in lines) * cw
+    ay = (h - len(lines) * ch) / 2
+    rows = []
+    for i, line in enumerate(lines):
+        if not line.strip():
+            continue
+        y = ay + (i + 1) * ch
+        t = 0.022 * i
+        rows.append(
+            f'<clipPath id="r{i}"><rect x="{ax:.1f}" y="{y - ch:.1f}" width="{len(line) * cw + 2:.1f}" height="{ch + 1:.1f}">'
+            f'{reveal("width", 0, round(len(line) * cw + 2, 1), t, 0.35)}</rect></clipPath>'
+            f'<text x="{ax:.1f}" y="{y:.1f}" clip-path="url(#r{i})" xml:space="preserve">{esc(line)}</text>')
+    body = panel(h) + f'''
+<g font-family="{MONO}" font-size="4" fill="#c9f5d9">{"".join(rows)}</g>
+<circle cx="50" cy="62" r="5" fill="{NEON}"><animate attributeName="opacity" values="1;.25;1" dur="1.6s" repeatCount="indefinite"/></circle>
+<text x="64" y="67" font-family="{MONO}" font-size="13" fill="{NEON}">live from Joinville, Brazil</text>
+<text x="40" y="186" font-family="{SANS}" font-weight="700" font-size="76" letter-spacing="-2" fill="{INK}">Victor</text>
+<text x="40" y="266" font-family="{SANS}" font-weight="700" font-size="76" letter-spacing="-2" fill="{INK}">Serpa</text>
+<text x="42" y="318" font-family="{SANS}" font-size="18" fill="{MUTE}">Fullstack developer at <tspan fill="{INK}">Instivo</tspan>.</text>
+<text x="42" y="344" font-family="{SANS}" font-size="18" fill="{MUTE}">After hours I ship my own apps at <tspan fill="{INK}">smk.</tspan></text>
+<text x="42" y="396" font-family="{MONO}" font-size="13" fill="{NEON}">victorserpa.dev →</text>'''
+    return svg(h, body, "Victor Serpa. Fullstack developer at Instivo. After hours I ship my own apps at smk.")
 
 
 def level(n, mx):
     if n == 0:
         return 0
-    return min(5, 1 + int(4 * n / max(mx, 1)))
+    return min(4, 1 + int(3.999 * n / max(mx, 1)))
 
 
-def heatmap(d):
-    h = 270
+def ledwall(d):
+    h = 236
     days = d["days"]
     start = days[0][0]
     mx = sorted(c for _, c in days)[int(len(days) * 0.95)] or 1
-    cell, gap = 12, 3
-    cols = (len(days) + start.weekday() + 1) // 7 + 1
-    x0 = (W - cols * (cell + gap)) / 2
-    y0 = 96
-    rects, months = [], []
-    seen = set()
+    pitch = 15
+    offset = start.isoweekday() % 7
+    cols = (len(days) + offset + 6) // 7
+    x0 = (W - cols * pitch) / 2 + pitch / 2
+    y0 = 82
+    dots, months, seen = [], [], set()
     for i, (day, n) in enumerate(days):
-        idx = i + (start.isoweekday() % 7)
-        col, row = divmod(idx, 7)
-        x = x0 + col * (cell + gap)
-        y = y0 + row * (cell + gap)
-        delay = col * 0.025
-        rects.append(f'<rect x="{x:.1f}" y="{y}" width="{cell}" height="{cell}" rx="3" fill="{LEVELS[level(n, mx)]}" opacity="0">'
-                     f'<title>{day.isoformat()}: {n}</title>'
-                     f'<animate attributeName="opacity" from="0" to="1" begin="{delay:.2f}s" dur="0.4s" fill="freeze"/></rect>')
-        if day.day <= 7 and row == 0 and (day.year, day.month) not in seen and col > 0:
+        col, row = divmod(i + offset, 7)
+        cx, cy = x0 + col * pitch, y0 + row * pitch
+        lv = level(n, mx)
+        glow = ' filter="url(#glow)"' if lv >= 3 else ""
+        dots.append(f'<circle cx="{cx:.1f}" cy="{cy}" r="5.2" fill="{LED[0]}"/>')
+        if lv:
+            dots.append(f'<circle cx="{cx:.1f}" cy="{cy}" r="5.2" fill="{LED[lv]}"{glow}>'
+                        f'<title>{day.isoformat()}: {n}</title>{reveal("opacity", 0, 1, col * 0.03, 0.3)}</circle>')
+        if day.day <= 7 and row == 0 and col > 0 and (day.year, day.month) not in seen:
             seen.add((day.year, day.month))
-            months.append(f'<text x="{x:.1f}" y="{y0 + 7 * (cell + gap) + 16}" font-family="{MONO}" font-size="10" fill="{MUTE}">{day.strftime("%b")}</text>')
-    legend = "".join(f'<rect x="{W - 146 + i * 14}" y="{h - 38}" width="10" height="10" rx="3" fill="{c}"/>' for i, c in enumerate(LEVELS))
-    body = card_bg(h) + f'''
-<text x="40" y="66" font-family="{SERIF}" font-size="30" fill="{INK}">Every day, <tspan font-style="italic" fill="{ACC}">in green</tspan></text>
-<text x="{W - 40}" y="62" text-anchor="end" font-family="{MONO}" font-size="11" letter-spacing="1.4" fill="{MUTE}">REFRESHED DAILY</text>
-{''.join(rects)}{''.join(months)}
-<text x="{W - 156}" y="{h - 29}" text-anchor="end" font-family="{MONO}" font-size="10" fill="{MUTE}">less</text>
-{legend}
-<text x="{W - 52}" y="{h - 29}" font-family="{MONO}" font-size="10" fill="{MUTE}">more</text>'''
-    return svg(h, body, f"Contribution graph for the last year, {d['total']} contributions, refreshed daily")
+            months.append(f'<text x="{cx - 5:.1f}" y="{y0 + 7 * pitch + 10}" font-family="{MONO}" font-size="10" fill="{MUTE}">{day.strftime("%b").lower()}</text>')
+    total = sum(n for _, n in days)
+    body = panel(h) + GLOW + f'''
+<text x="40" y="50" font-family="{SANS}" font-weight="700" font-size="20" fill="{INK}">{total:,} contributions</text>
+<text x="{W - 40}" y="50" text-anchor="end" font-family="{MONO}" font-size="12" fill="{MUTE}">last 12 months · updated daily</text>
+{''.join(dots)}{''.join(months)}'''
+    return svg(h, body, f"LED wall of {total} contributions in the last 12 months")
 
 
 def streaks(days):
-    today = days[-1][0]
-    cur = 0
     seq = list(days)
-    if seq and seq[-1][1] == 0 and seq[-1][0] == today:
-        seq = seq[:-1]  # today still in progress
+    if seq and seq[-1][1] == 0:
+        seq = seq[:-1]
+    cur = 0
     for _, n in reversed(seq):
         if n == 0:
             break
@@ -164,102 +178,73 @@ def streaks(days):
     return cur, best
 
 
-def activity(d):
-    h = 300
-    days = d["days"]
+def meter(d):
+    h = 290
+    days = d["days"][-365:]
     per = OrderedDict()
-    for day, n in days[-365:]:
-        per.setdefault((day.year, day.month), 0)
-        per[(day.year, day.month)] += n
+    for day, n in days:
+        per[(day.year, day.month)] = per.get((day.year, day.month), 0) + n
     months = list(per.items())[-12:]
     mx = max(v for _, v in months) or 1
-    peak = max(range(len(months)), key=lambda i: months[i][1])
-    cur, best = streaks(days)
-    active = sum(1 for _, n in days[-365:] if n)
-    busiest = max(n for _, n in days[-365:])
-    total = sum(n for _, n in days[-365:])
-    bx, by, bw, bh, step = 40, 268, 34, 140, 42
-    bars = []
+    cur, best = streaks(d["days"])
+    active = sum(1 for _, n in days if n)
+    busiest = max(n for _, n in days)
+    segs, seg_h, gap = 12, 9, 3
+    col_w, step = 44, 66
+    x0 = (W - (len(months) - 1) * step - col_w) / 2
+    base = 216
+    cols = []
     for i, ((y, m), v) in enumerate(months):
-        hh = max(6, bh * v / mx)
-        x = bx + i * step
-        fill = ACC if i == peak else INK
-        if i == len(months) - 1:
-            fill = "#cfccc2"
-        bars.append(f'<rect x="{x}" y="{by - hh:.1f}" width="{bw}" height="{hh:.1f}" rx="3" fill="{fill}">'
-                    f'<animate attributeName="height" from="0" to="{hh:.1f}" dur="0.8s" begin="{i * 0.05:.2f}s" fill="freeze"/>'
-                    f'<animate attributeName="y" from="{by}" to="{by - hh:.1f}" dur="0.8s" begin="{i * 0.05:.2f}s" fill="freeze"/></rect>'
-                    f'<text x="{x + bw / 2}" y="{by + 16}" text-anchor="middle" font-family="{MONO}" font-size="10" fill="{MUTE}">{dt.date(y, m, 1).strftime("%b")}</text>')
-        if i == peak:
-            bars.append(f'<text x="{x + bw / 2}" y="{by - hh - 6:.1f}" text-anchor="middle" font-family="{MONO}" font-size="10" fill="{ACC}">{v:,}</text>')
-    sx = 600
-    stat = lambda y, big, small, lab: (
-        f'<text x="{sx}" y="{y}" font-family="{SERIF}" font-size="34" fill="{INK}">{big}<tspan font-style="italic" font-size="26">{small}</tspan></text>'
-        f'<text x="{sx}" y="{y + 20}" font-family="{SANS}" font-size="12" fill="{MUTE}">{lab}</text>')
-    sep = lambda y: f'<line x1="{sx}" x2="{W - 40}" y1="{y}" y2="{y}" stroke="#dcd9cf"/>'
-    body = card_bg(h) + f'''
-<text x="40" y="52" font-family="{MONO}" font-size="11" letter-spacing="1.4" fill="{MUTE}">THE LAST 12 MONTHS ON GITHUB</text>
-<text x="38" y="98" font-family="{SERIF}" font-size="42" fill="{INK}">{total:,} <tspan font-style="italic">contributions</tspan></text>
-{''.join(bars)}
-{stat(96, cur, " days", f"current streak · longest {best}")}{sep(132)}
-{stat(176, active, " / 365", "days with a contribution")}{sep(212)}
-{stat(256, busiest, "", "on the busiest day")}'''
-    return svg(h, body, f"{total} contributions in the last 12 months, current streak {cur} days, {active} active days")
+        lit = round(segs * v / mx) if v else 0
+        x = x0 + i * step
+        for s in range(segs):
+            yy = base - (s + 1) * (seg_h + gap) + gap
+            color = LED[0]
+            if s < lit:
+                color = "#ff5d5d" if s >= segs - 2 else ("#ffb547" if s >= segs - 5 else NEON)
+            anim = reveal("opacity", 0, 1, i * 0.06 + s * 0.03, 0.15) if s < lit else ""
+            op = ""
+            cols.append(f'<rect x="{x:.1f}" y="{yy}" width="{col_w}" height="{seg_h}" rx="2" fill="{color}"{op}>{anim}</rect>')
+        cols.append(f'<text x="{x + col_w / 2:.1f}" y="{base + 18}" text-anchor="middle" font-family="{MONO}" font-size="10" fill="{MUTE}">{dt.date(y, m, 1).strftime("%b").lower()}</text>')
+    stats = (f'<tspan fill="{INK}">{cur}</tspan>-day streak   ·   longest <tspan fill="{INK}">{best}</tspan>   ·   '
+             f'<tspan fill="{INK}">{active}</tspan> active days   ·   peak day <tspan fill="{INK}">{busiest}</tspan>')
+    body = panel(h) + f'''
+<text x="40" y="44" font-family="{SANS}" font-weight="700" font-size="20" fill="{INK}">Levels, month by month</text>
+{''.join(cols)}
+<text x="{W / 2}" y="{h - 22}" text-anchor="middle" font-family="{MONO}" font-size="12" fill="{MUTE}" xml:space="preserve">{stats}</text>'''
+    return svg(h, body, f"Monthly activity meter. {cur}-day streak, longest {best}, {active} active days, peak day {busiest}")
 
 
-TW = W / 3
+def setlist_head():
+    h = 64
+    body = (f'<text x="8" y="44" font-family="{SANS}" font-weight="700" font-size="22" fill="{INK}">Setlist</text>'
+            f'<text x="{W - 8}" y="44" text-anchor="end" font-family="{MONO}" font-size="12" fill="{MUTE}">what I’m playing right now</text>')
+    return svg(h, body, "Setlist: what I'm working on")
 
 
-def small_svg(h, body, label):
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{TW:.3f}" height="{h}" viewBox="0 0 {TW:.3f} {h}" '
-            f'role="img" aria-label="{esc(label)}">{body}</svg>')
-
-
-def tile(t, d):
-    h = 176
-    big_a, big_b = (s.format(**d) for s in t["big"])
-    body = f'''<rect x="6" y="6" width="{TW - 12:.1f}" height="{h - 12}" rx="12" fill="{t["bg"]}"/>
-<text x="22" y="34" font-family="{MONO}" font-size="9.5" letter-spacing="1.4" fill="{t["fg"]}" opacity=".85">{esc(t["key"])}</text>
-<text x="{TW - 22:.1f}" y="34" text-anchor="end" font-family="{MONO}" font-size="11" fill="{t["fg"]}">→</text>
-<text x="20" y="98" font-family="{SERIF}" font-size="34" fill="{t["fg"]}">{esc(big_a)}<tspan font-style="italic">{esc(big_b)}</tspan></text>
-<text x="22" y="128" font-family="{SANS}" font-size="11.5" fill="{t["fg"]}" opacity=".9">{esc(t["lines"][0])}</text>
-<text x="22" y="145" font-family="{SANS}" font-size="11.5" fill="{t["fg"]}" opacity=".9">{esc(t["lines"][1])}</text>'''
-    return small_svg(h, body, f'{t["key"]}: {big_a}{big_b}')
-
-
-def title(dark):
-    h = 80
-    fg = "#f0f0ee" if dark else INK
-    body = f'<text x="14" y="52" font-family="{SERIF}" font-size="32" fill="{fg}">What I’m <tspan font-style="italic">building</tspan></text>'
-    return svg(h, body, "What I'm building")
-
-
-def repo(p, d):
-    h = 150
-    meta = p["meta"].format(**d)
-    body = f'''<rect x="6" y="6" width="{TW - 12:.1f}" height="{h - 12}" rx="12" fill="{BG}"/>
-<rect x="22" y="28" width="8" height="8" fill="{p["color"]}"/>
-<text x="38" y="37" font-family="{SANS}" font-weight="700" font-size="14" fill="{INK}">{esc(p["name"])}</text>
-<text x="22" y="70" font-family="{SANS}" font-size="11.5" fill="#3a3a40">{esc(p["desc"][0])}</text>
-<text x="22" y="87" font-family="{SANS}" font-size="11.5" fill="#3a3a40">{esc(p["desc"][1])}</text>
-<text x="22" y="122" font-family="{MONO}" font-size="10" fill="{MUTE}">{esc(meta)}</text>'''
-    return small_svg(h, body, f'{p["name"]}: {" ".join(p["desc"])}')
+def track(i, p, d):
+    h = 76
+    label, color = STATUS[p["status"]]
+    stack = p["stack"].format(**d)
+    pill_w = 12 + len(label) * 7.4
+    body = f'''<rect x="4" y="4" width="{W - 8}" height="{h - 8}" rx="10" fill="{SURFACE}" stroke="{LINE}"/>
+<text x="28" y="46" font-family="{MONO}" font-size="13" fill="{MUTE}">{i:02d}</text>
+<text x="70" y="36" font-family="{SANS}" font-weight="700" font-size="19" fill="{INK}">{esc(p["name"])}</text>
+<text x="70" y="58" font-family="{SANS}" font-size="14" fill="{MUTE}">{esc(p["what"])}</text>
+<text x="{W - 40 - pill_w}" y="46" text-anchor="end" font-family="{MONO}" font-size="12" fill="{MUTE}">{esc(stack)}</text>
+<rect x="{W - 28 - pill_w}" y="27" width="{pill_w}" height="22" rx="11" fill="none" stroke="{color}"/>
+<text x="{W - 28 - pill_w / 2}" y="42" text-anchor="middle" font-family="{MONO}" font-size="11" fill="{color}">{label}</text>'''
+    return svg(h, body, f'{p["name"]}: {p["what"]}')
 
 
 def main():
     d = fetch()
     OUT.mkdir(exist_ok=True)
-    files = {
-        "hero.svg": hero(),
-        "heatmap.svg": heatmap(d),
-        "activity.svg": activity(d),
-        "title-light.svg": title(False),
-        "title-dark.svg": title(True),
-    }
-    for t in TILES:
-        files[f"tile-{t['key'].lower().replace(' ', '-')}.svg"] = tile(t, d)
-    for p in PROJECTS:
-        files[f"repo-{p['name']}.svg"] = repo(p, d)
+    for old in OUT.glob("*.svg"):
+        old.unlink()
+    files = {"hero.svg": hero(), "ledwall.svg": ledwall(d), "meter.svg": meter(d), "setlist.svg": setlist_head()}
+    for i, p in enumerate(SETLIST, 1):
+        files[f"track-{p['slug']}.svg"] = track(i, p, d)
     for name, content in files.items():
         (OUT / name).write_text(content)
     print("wrote", len(files), "cards")
