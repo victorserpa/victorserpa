@@ -11,6 +11,7 @@ import datetime as dt
 import html
 import json
 import os
+import random
 import urllib.request
 from pathlib import Path
 
@@ -133,22 +134,27 @@ def ledwall(d):
     for i, (_, n) in enumerate(days):
         if level(n, mx):
             lit.add(divmod(i + offset, 7))
+    # Fixed seed: the route looks random but stays the same between runs, so the
+    # daily job only commits when the contributions actually change.
+    rng = random.Random(7)
     pos = (0, 3)
     route = [pos]
     left = set(lit)
     while left:
-        target = min(left, key=lambda c: (abs(c[0] - pos[0]) + abs(c[1] - pos[1]), c[0], c[1]))
+        near = sorted(left, key=lambda c: (abs(c[0] - pos[0]) + abs(c[1] - pos[1]), c))[:4]
+        target = rng.choice(near)
         c, r = pos
-        # walk across on the current row first, then up or down, one cell per step
-        while c != target[0]:
-            c += 1 if target[0] > c else -1
-            route.append((c, r))
-        while r != target[1]:
-            r += 1 if target[1] > r else -1
+        # walk a staircase towards the target, choosing the axis at random each step
+        while (c, r) != target:
+            move_col = target[0] != c and (target[1] == r or rng.random() < 0.5)
+            if move_col:
+                c += 1 if target[0] > c else -1
+            else:
+                r += 1 if target[1] > r else -1
             route.append((c, r))
         pos = target
         left.discard(target)
-    step, pause = 0.11, 3.0
+    step, pause = 0.2, 3.0
     order = {}
     for idx, cell in enumerate(route):
         order.setdefault(cell, idx)
