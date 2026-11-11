@@ -1,3 +1,5 @@
+<img src="./assets/avatar.jpg" alt="Victor Serpa" width="190" align="right" />
+
 ## Victor Serpa
 
 Fullstack developer at **[Instivo](https://instivo.com.br)**, living in Joinville, Brazil.
