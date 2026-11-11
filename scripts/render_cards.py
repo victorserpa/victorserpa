@@ -1,7 +1,7 @@
 """Render the profile README cards as standalone SVGs ("dark stage" design).
 
 A nod to vjcraft: near-black stage, one neon accent, the contribution graph as an
-LED wall with a snake eating the lit days, and projects as a setlist.
+LED wall with a snake hunting the lit days, and projects as a setlist.
 
 Reads the contribution calendar from the GitHub GraphQL API (needs GITHUB_TOKEN)
 and writes every card into cards/. Standard library only, so the workflow needs
@@ -125,16 +125,34 @@ def ledwall(d):
     cols = (len(days) + offset + 6) // 7
     x0 = (W - cols * pitch) / 2 + pitch / 2
     y0 = 82
-    # The snake walks the wall column by column (down, then up), eating every lit
-    # LED it passes; the wall lights up again when the loop restarts. Without SMIL
-    # (static renderers) the wall simply shows fully lit.
-    step, pause = 0.045, 2.5
+    # The snake hunts: from where it is, it heads for the nearest lit LED still
+    # on the wall (grid moves only), eats it and picks the next one, like the
+    # classic game. The wall lights up again when the loop restarts. Without
+    # SMIL (static renderers) the wall simply shows fully lit.
+    lit = set()
+    for i, (_, n) in enumerate(days):
+        if level(n, mx):
+            lit.add(divmod(i + offset, 7))
+    pos = (0, 3)
+    route = [pos]
+    left = set(lit)
+    while left:
+        target = min(left, key=lambda c: (abs(c[0] - pos[0]) + abs(c[1] - pos[1]), c[0], c[1]))
+        c, r = pos
+        # walk across on the current row first, then up or down, one cell per step
+        while c != target[0]:
+            c += 1 if target[0] > c else -1
+            route.append((c, r))
+        while r != target[1]:
+            r += 1 if target[1] > r else -1
+            route.append((c, r))
+        pos = target
+        left.discard(target)
+    step, pause = 0.11, 3.0
     order = {}
-    for col in range(cols):
-        rows = range(7) if col % 2 == 0 else range(6, -1, -1)
-        for row in rows:
-            order[(col, row)] = len(order)
-    moving = len(order) * step
+    for idx, cell in enumerate(route):
+        order.setdefault(cell, idx)
+    moving = (len(route) - 1) * step
     loop = moving + pause
     dots, months, seen = [], [], set()
     for i, (day, n) in enumerate(days):
@@ -152,13 +170,12 @@ def ledwall(d):
         if day.day <= 7 and row == 0 and col > 0 and (day.year, day.month) not in seen:
             seen.add((day.year, day.month))
             months.append(f'<text x="{cx - 5:.1f}" y="{y0 + 7 * pitch + 10}" font-family="{MONO}" font-size="10" fill="{MUTE}">{day.strftime("%b").lower()}</text>')
-    cells = sorted(order, key=order.get)
-    path = "M" + " L".join(f"{x0 + c * pitch:.1f},{y0 + r * pitch}" for c, r in cells)
+    path = "M" + " L".join(f"{x0 + c * pitch:.1f},{y0 + r * pitch}" for c, r in route)
     f = moving / loop
     snake = []
-    for k in range(6, -1, -1):  # tail first so the head draws on top
+    for k in range(4, -1, -1):  # tail first so the head draws on top
         lag = k * step
-        size = 11 if k == 0 else 9 - k * 0.6
+        size = 11 if k == 0 else 10 - k * 0.8
         color = INK if k == 0 else SNAKE
         snake.append(
             f'<rect x="{-size / 2:.1f}" y="{-size / 2:.1f}" width="{size:.1f}" height="{size:.1f}" rx="3" fill="{color}" opacity="0">'
