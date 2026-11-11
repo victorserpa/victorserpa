@@ -2,9 +2,9 @@
 
 <h2 align="center">Victor Serpa</h2>
 
-Fullstack developer at **[Instivo](https://instivo.com.br)**, living in Joinville, Brazil.
+<p align="center">Fullstack developer at <b><a href="https://instivo.com.br">Instivo</a></b>, living in Joinville, Brazil.</p>
 
-After hours I run **[smk.](https://wearesmk.com)**, a small studio where I ship my own apps. Right of Way and LumeClip are made there.
+<p align="center">After hours I run <b><a href="https://wearesmk.com">smk.</a></b>, a small studio where I ship my own apps. Right of Way and LumeClip are made there.</p>
 
 ```ts
 const victor = {
