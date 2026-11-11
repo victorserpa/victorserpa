@@ -42,6 +42,8 @@ SETLIST = [
      "stack": "React Native · Expo", "status": "soon"},
     {"slug": "lumeclip", "name": "LumeClip", "what": "Long videos in, short vertical clips with captions out.",
      "stack": "Next.js · FFmpeg", "status": "live"},
+    {"slug": "notchwake", "name": "Notchwake", "what": "Mac notch island: music, agenda, timers and coding agents.",
+     "stack": "Swift · SwiftUI", "status": "live"},
     {"slug": "objection", "name": "objection", "what": "AI agents put the PR on trial. No approval, no merge.",
      "stack": "Shell · ★ {objection_stars}", "status": "open"},
     {"slug": "vjcraft", "name": "vjcraft", "what": "Live visuals app: layers, effects, LED via Art-Net, NDI.",
