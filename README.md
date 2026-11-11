@@ -1,4 +1,4 @@
-<img src="./assets/avatar.jpg" alt="Victor Serpa" width="190" align="right" />
+<img src="./assets/avatar.png" alt="Victor Serpa" width="190" align="right" />
 
 ## Victor Serpa
 
