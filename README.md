@@ -9,7 +9,6 @@
 <a href="https://lumeclip.com"><img src="./cards/track-lumeclip.svg" width="100%" alt="03 LumeClip" /></a><br>
 <a href="https://github.com/victorserpa/objection"><img src="./cards/track-objection.svg" width="100%" alt="04 objection" /></a><br>
 <a href="https://github.com/victorserpa/vjcraft"><img src="./cards/track-vjcraft.svg" width="100%" alt="05 vjcraft" /></a><br>
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/victorserpa/victorserpa/output/github-snake-dark.svg" /><img src="https://raw.githubusercontent.com/victorserpa/victorserpa/output/github-snake.svg" width="100%" alt="Snake eating my contributions" /></picture>
 </div>
 
 <p align="center">

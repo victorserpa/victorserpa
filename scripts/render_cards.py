@@ -1,7 +1,7 @@
 """Render the profile README cards as standalone SVGs ("dark stage" design).
 
 A nod to vjcraft: near-black stage, one neon accent, the contribution graph as an
-LED wall and projects as a setlist.
+LED wall with a snake eating the lit days, and projects as a setlist.
 
 Reads the contribution calendar from the GitHub GraphQL API (needs GITHUB_TOKEN)
 and writes every card into cards/. Standard library only, so the workflow needs
@@ -28,6 +28,7 @@ NEON = "#3dff8f"
 DIM = "#1a2a21"
 SANS = "'Helvetica Neue',Helvetica,Arial,sans-serif"
 MONO = "ui-monospace,SFMono-Regular,Menlo,Consolas,monospace"
+SNAKE = "#ffb547"
 LED = ["#18201b", "#174a2c", "#1d7a44", "#28b862", "#3dff8f"]
 
 SETLIST = [
@@ -124,6 +125,17 @@ def ledwall(d):
     cols = (len(days) + offset + 6) // 7
     x0 = (W - cols * pitch) / 2 + pitch / 2
     y0 = 82
+    # The snake walks the wall column by column (down, then up), eating every lit
+    # LED it passes; the wall lights up again when the loop restarts. Without SMIL
+    # (static renderers) the wall simply shows fully lit.
+    step, pause = 0.045, 2.5
+    order = {}
+    for col in range(cols):
+        rows = range(7) if col % 2 == 0 else range(6, -1, -1)
+        for row in rows:
+            order[(col, row)] = len(order)
+    moving = len(order) * step
+    loop = moving + pause
     dots, months, seen = [], [], set()
     for i, (day, n) in enumerate(days):
         col, row = divmod(i + offset, 7)
@@ -132,11 +144,29 @@ def ledwall(d):
         glow = ' filter="url(#glow)"' if lv >= 3 else ""
         dots.append(f'<circle cx="{cx:.1f}" cy="{cy}" r="5.2" fill="{LED[0]}"/>')
         if lv:
+            eat = order[(col, row)] * step / loop
             dots.append(f'<circle cx="{cx:.1f}" cy="{cy}" r="5.2" fill="{LED[lv]}"{glow}>'
-                        f'<title>{day.isoformat()}: {n}</title>{reveal("opacity", 0, 1, col * 0.03, 0.3)}</circle>')
+                        f'<title>{day.isoformat()}: {n}</title>'
+                        f'<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;{eat:.4f};{min(eat + 0.002, 0.999):.4f};1" '
+                        f'dur="{loop:.2f}s" repeatCount="indefinite"/></circle>')
         if day.day <= 7 and row == 0 and col > 0 and (day.year, day.month) not in seen:
             seen.add((day.year, day.month))
             months.append(f'<text x="{cx - 5:.1f}" y="{y0 + 7 * pitch + 10}" font-family="{MONO}" font-size="10" fill="{MUTE}">{day.strftime("%b").lower()}</text>')
+    cells = sorted(order, key=order.get)
+    path = "M" + " L".join(f"{x0 + c * pitch:.1f},{y0 + r * pitch}" for c, r in cells)
+    f = moving / loop
+    snake = []
+    for k in range(6, -1, -1):  # tail first so the head draws on top
+        lag = k * step
+        size = 11 if k == 0 else 9 - k * 0.6
+        color = INK if k == 0 else SNAKE
+        snake.append(
+            f'<rect x="{-size / 2:.1f}" y="{-size / 2:.1f}" width="{size:.1f}" height="{size:.1f}" rx="3" fill="{color}" opacity="0">'
+            f'<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.001;{f - 0.001:.4f};{f:.4f};1" '
+            f'dur="{loop:.2f}s" begin="{lag:.3f}s" repeatCount="indefinite"/>'
+            f'<animateMotion path="{path}" keyPoints="0;1;1" keyTimes="0;{f:.4f};1" calcMode="linear" '
+            f'dur="{loop:.2f}s" begin="{lag:.3f}s" repeatCount="indefinite"/></rect>')
+    dots.append(f'<g filter="url(#glow)">{"".join(snake)}</g>')
     total = sum(n for _, n in days)
     cur, best = streaks(days)
     active = sum(1 for _, n in days if n)
